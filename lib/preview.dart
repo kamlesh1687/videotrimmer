@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -14,6 +15,7 @@ class Preview extends StatefulWidget {
 
 class _PreviewState extends State<Preview> {
   VideoPlayerController _controller;
+  FlickManager flickManager;
 
   @override
   void initState() {
@@ -24,6 +26,8 @@ class _PreviewState extends State<Preview> {
         setState(() {});
         _controller.play();
       });
+
+    flickManager = FlickManager(videoPlayerController: _controller);
   }
 
   @override
@@ -44,7 +48,9 @@ class _PreviewState extends State<Preview> {
           aspectRatio: _controller.value.aspectRatio,
           child: _controller.value.initialized
               ? Container(
-                  child: VideoPlayer(_controller),
+                  child: FlickVideoPlayer(
+                    flickManager: flickManager,
+                  ),
                 )
               : Container(
                   child: Center(
